@@ -59,6 +59,16 @@ Anything within the `<root>` tags is treated as HTML, allowing you to inject C# 
 
 If no `<root>` element is present, then any and all elements will be a child of your Panel's root automatically.
 
+:::warning
+These tags are **not** real HTML elements. Each tag name is just looked up against the registered [Panel](https://sbox.game/api/Sandbox.UI.Panel) types:
+
+* `div`, `span` and `p` all resolve to the same plain `Panel` — there is no block/inline distinction, no default `<p>` margins, etc. They are interchangeable.
+* `label` (or `text`) resolves to a [Label](https://sbox.game/api/Sandbox.UI.Label), and `img` (or `image`) to an [Image](https://sbox.game/api/Sandbox.UI.Image).
+* Any other tag name resolves to the [Panel](https://sbox.game/api/Sandbox.UI.Panel) subclass registered under that name (e.g. your own components). If no type is found, you silently get a blank `Panel` with that element name — so a typo'd tag won't error, it just renders an empty panel.
+
+There are no native semantic or form elements (`<table>`, `<ul>`, `<input>`, `<form>`, `<a>`, etc.) — build these as components. A bare text node is automatically wrapped in a `Label`.
+:::
+
 You can also `return` early in Razor if you don't want it to render anything beyond the specified line.
 
 ## BuildHash

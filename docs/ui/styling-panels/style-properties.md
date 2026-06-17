@@ -11,6 +11,23 @@ We try to keep as close to standard web styles as possible - but not every prope
 
 Anything marked in **bold\*** may behave differently to how you'd expect on web.
 
+:::warning
+**Layout is Flexbox only.** Panels are laid out with a Flexbox engine, so there is no CSS Grid, no `float`, and no normal inline text flow. `display` only supports `flex` (the default), `none` and `contents`. `position` only supports `static`, `relative` and `absolute` (no `fixed` or `sticky`). When in doubt, reach for Flexbox properties (`flex-direction`, `justify-content`, `align-items`, `gap`, …).
+:::
+
+## Selectors
+
+Most common selectors work — type, class, id, `*`, descendant, child (`>`), adjacent sibling (`+`), general sibling (`~`), and the pseudo-classes `:hover`, `:active`, `:focus`, `:not()`, `:has()`, `:nth-child()`, `:first-child`, `:last-child`, `:only-child`, `:empty`, plus `::before` / `::after`. See [Styling Panels](/ui/styling-panels/index.md) for the s&box-only `:intro` / `:outro` pseudo-classes.
+
+Some web selector features are **not** supported:
+
+* **Attribute selectors** (`[type="text"]`, `[disabled]`, …).
+* `:nth-child()` only accepts a single integer, `odd` or `even` — the `an+b` formula syntax (e.g. `2n+1`) is not supported.
+* Type/class/id names are matched **case-insensitively** (they are lowercased), unlike standard CSS where class and id names are case-sensitive.
+* Many state pseudo-classes have no panel equivalent (`:checked`, `:disabled`, `:nth-of-type`, `:first-of-type`, `:link`, `:visited`, `:root`, …).
+
+An unrecognised pseudo-class throws a parse error rather than being ignored.
+
 ## Common Types
 
 | Name | Description | Examples |
@@ -116,7 +133,7 @@ These work across most properties:
 | column-gap | Length     |                  |
 | content | string     | Sets the text of a Label.<br>eg. `content: "Loading…";` |
 | cursor | none / pointer / progress / wait / crosshair / text / move / not-allowed / any custom cursors |                  |
-| **display\*** | flex (default) / none | Everything is flex by default |
+| **display\*** | flex (default) / none / contents | Everything is flex by default. There is no `block`, `inline`, `inline-block`, `grid` or `table` — see the note below. |
 | filter | Same as `backdrop-filter` / none | `none` clears any filters. |
 | filter-blur | Length     |                  |
 | filter-border-color | Color      |                  |
